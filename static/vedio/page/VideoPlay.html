@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W C//DTD XHTML 1.0 Strict//EN" " http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>视频播放页</title>
+    <style>
+        .video {
+            z-index: 100;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: fill;
+            width: auto;
+            height: auto;
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+            background: url(../video/cover.jpg) no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <video id="video" class="video" controls="controls">
+  		<source id="video-source" src="" type="video/mp4" />
+	</video>
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+<script>
+    var video_url = "Code.mp4"; // 数据库中存储的视频路径字段
+    var server_url = "http://img.hepper.cn/dlimages/"; // 存储的服务器
+
+    $('#video-source').attr('src', server_url + video_url);
+    $('.video').height(window.innerHeight);
+    $(window).resize(function() {
+        $('.video').attr('height', window.innerHeight);
+        $('.video').attr('width', window.innerWidth);
+        $('.header').height(window.innerHeight);
+    });
+</script>

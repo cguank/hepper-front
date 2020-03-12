@@ -20,7 +20,7 @@ axios.interceptors.request.use(config => {
     }
     config.headers.value = 'woshinibaba'
         //Loading.service({ fullscreen: true })
-    console.log(config)
+        //console.log(config)
     return config;
     // if (utils.getLocalStorage("userInfo") && JSON.parse(utils.getLocalStorage("userInfo")).token) {
     //     let token = JSON.parse(utils.getLocalStorage("userInfo")).token;
