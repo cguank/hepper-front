@@ -26,10 +26,10 @@ export default {
 
   created: function () {
     this.arr = new Array(this.cols).fill(0);
-    setInterval(() => {
-      this.getImgList();
-    }, 2000)
-    //this.getImgList();
+    // setInterval(() => {
+    //   this.getImgList();
+    // }, 2000)
+    this.getImgList();
     //console.log(this.cols,this.screenWidth);
 
   },
@@ -50,24 +50,42 @@ export default {
   },
   methods: {
     loadImgByOrder (index, coverPicture) {
-      if(index==5) return;
+      if (index == 5) return;
       this.loadImgAsyn(coverPicture).then(url => {
         this.loadedList.push('http://img.hepper.cn/dlimages/' + url);
-        this.loadImgByOrder(index+1,this.srcList[index+1].coverPicture)
+        this.loadImgByOrder(index + 1, this.srcList[index + 1].coverPicture)
       })
     },
-    getImgList () {
-      this.$getData('getImgList', { currentPage: this.query.currentPage }).then(res => {
+    async getImgList () {
+      try {
+        let res = await this.$getData('getImgList', { currentPage: this.query.currentPage });
         this.srcList = res.data.getPictureList;
         this.query.currentPage++;
-        this.srcList.forEach(v => {
-          this.loadImgAsyn(v.coverPicture).then(url => {
+
+        for (let item of this.srcList) {
+          (async () => {
+            let url = await this.loadImgAsyn(item.coverPicture);
             this.loadedList.push('http://img.hepper.cn/dlimages/' + url);
-          })
-        })
-        //this.loadImgByOrder(0,this.srcList[0].coverPicture);
-        console.log(this.srcList);
-      })
+          })()
+
+        }
+
+      } catch (e) {
+        console.log(e);
+
+      }
+
+      // this.$getData('getImgList', { currentPage: this.query.currentPage }).then(res => {
+      //   this.srcList = res.data.getPictureList;
+      //   this.query.currentPage++;
+      //   this.srcList.forEach(v => {
+      //     this.loadImgAsyn(v.coverPicture).then(url => {
+      //       this.loadedList.push('http://img.hepper.cn/dlimages/' + url);
+      //     })
+      //   })
+      //   //this.loadImgByOrder(0,this.srcList[0].coverPicture);
+      //   console.log(this.srcList);
+      // })
     },
     loadImgAsyn (url) {
       return new Promise((resolve, reject) => {

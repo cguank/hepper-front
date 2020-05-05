@@ -1,5 +1,6 @@
 <template>
   <div>
+    c
     <ul >
       <li v-for="item of itemList" :key="item.id">
         <span class="control-btn" v-if="item.children && !item.show" @click="$set(item,'show',true)">+</span>
